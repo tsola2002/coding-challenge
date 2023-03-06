@@ -1,47 +1,53 @@
 package com.tsola2002;
 
+import java.util.Scanner;
+import java.util.Stack;
+
 class Solution {
 
-    public static boolean containsOnlyDigitsV1(String str) {
-
-        if (str == null || str.isBlank()) {
-            // or throw IllegalArgumentException
-            return false;
-        }
-
-        // this will loop through the string characters and break the loop if the method returns false
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
+    public static boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else if (c == ')' && !stack.isEmpty() && stack.peek() == '(') {
+                stack.pop();
+            } else if (c == '}' && !stack.isEmpty() && stack.peek() == '{') {
+                stack.pop();
+            } else if (c == ']' && !stack.isEmpty() && stack.peek() == '[') {
+                stack.pop();
+            } else {
                 return false;
             }
         }
-
-        return true;
+        return stack.isEmpty();
     }
-
 }
 
 public class Main {
 
-    private static final String ONLY_DIGITS = "45566336754493420932877387482372374982374823"
-            + "749823283974232237238472392309230923849023848234580383485342234287943943094"
-            + "234745374657346578465783467843653748654376837463847654382382938793287492326";
-
-    private static final String NOT_ONLY_DIGITS = "45566336754493420932877387482372374982374823"
-            + "749823283974232237238472392309230923849023848234580383485342234287943943094"
-            + "234745374657346578465783467843653748654376837463847654382382938793287492326A";
-
     public static void main(String[] args) {
-        //System.out.println("Hello world!");
-        System.out.println("Input text with only digits: \n" + ONLY_DIGITS + "\n");
-        System.out.println("Input text with other characters: \n" + NOT_ONLY_DIGITS + "\n");
+        // System.out.println("Hello world!");
+//        String s1 = "()";
+//        String s2 = "()[]{}";
+//        String s3 = "(]";
+//        String s4 = "([))";
+//        String s5 = "{[]}";
+//
+//        System.out.println(Solution.isValid(s1)); // true
+//        System.out.println(Solution.isValid(s2)); // true
+//        System.out.println(Solution.isValid(s3)); // false
+//        System.out.println(Solution.isValid(s4)); // false
+//        System.out.println(Solution.isValid(s5)); // true
 
-        System.out.println("Character.isDigit() solution:");
-        // run the function to check if its only digits
-        boolean onlyDigitsV11 = Solution.containsOnlyDigitsV1(ONLY_DIGITS);
-        boolean onlyDigitsV12 = Solution.containsOnlyDigitsV1(NOT_ONLY_DIGITS);
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        if(Solution.isValid(s)){
+            System.out.println("valid");
+        } else {
+            System.out.println("invalid");
+        }
 
-        System.out.println("Contains only digits: " + onlyDigitsV11);
-        System.out.println("Contains not only digits: " + onlyDigitsV12);
     }
 }
